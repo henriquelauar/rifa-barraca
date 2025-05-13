@@ -28,6 +28,10 @@ export default function PagamentoModal({
     toast.success("Chave Pix copiada!");
   }
 
+  const mensagemWhatsapp = `Olá, acabei de reservar ${numeros.length === 1 ? 'o número' : 'os números'} ${numeros.join(", ")} da rifa. Total: R$ ${total.toFixed(2)}. Segue o comprovante do pagamento.`;
+  const numeroWhatsapp = "5531997568782"; // Substitua pelo número real com DDI + DDD
+  const linkWhatsapp = `https://wa.me/${numeroWhatsapp}?text=${encodeURIComponent(mensagemWhatsapp)}`;
+
   return (
     <div className="modal fade show d-block" style={{ backgroundColor: "rgba(0,0,0,0.5)" }}>
       <div className="modal-dialog modal-dialog-centered">
@@ -65,10 +69,19 @@ export default function PagamentoModal({
               </div>
             </div>
           </div>
-          <div className="modal-footer">
-            <button className="btn btn-danger" onClick={onClose}>
+          <div className="modal-footer d-flex justify-content-center flex-wrap">
+          <a
+              href={linkWhatsapp}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-success w-100"
+            >
+              Enviar comprovante via WhatsApp <i className="bi bi-whatsapp mx-1"></i>
+            </a>
+            <button className="btn btn-danger w-100" onClick={onClose}>
               Fechar
             </button>
+
           </div>
         </div>
       </div>
