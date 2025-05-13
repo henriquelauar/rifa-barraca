@@ -81,9 +81,10 @@ export default function RifaForm() {
 
     const { error } = await supabase.from('rifa_participantes').insert(registros);
 
-    if (error) {
-      setMensagem('❌ Erro ao salvar. Tente novamente.');
-      console.log(error);
+    if (error && error.code === '23505') {
+      setMensagem('❌ Um ou mais números acabaram de ser reservados por outro participante. Atualize a lista e tente novamente.');
+      buscarNumerosUsados();
+      return;
     } else {
       setMensagem(`✅ ${form.numeros.length === 1 ? "Número" : "Números"} ${form.numeros.join(", ")} reservado${form.numeros.length === 1 ? "" : "s"} com sucesso!`);
       setForm({ nome: '', email: '', telefone: '', numeros: [] });
@@ -257,7 +258,7 @@ export default function RifaForm() {
         email={reservaInfo.email}
         telefone={reservaInfo.telefone}
         numeros={reservaInfo.numeros}
-        chavePix="31 997568782" // substitua pela sua chave real
+        chavePix="31 997568782"
       />
     )}
     </div>

@@ -1,11 +1,16 @@
 import { ToastContainer } from 'react-toastify';
-import './App.css';
+import { Routes, Route } from 'react-router-dom';
+import AdminPage from './pages/AdminPage';
 import RifaForm from './pages/RifaForm';
+import './App.css';
 
-function App() {
+export default function App() {
   return (
-    <div className="App">
-      <RifaForm />
+    <>
+      <Routes>
+        <Route path="/" element={<RifaForm />}/>
+        <Route path="/admin" element={<AdminPage />}/>
+      </Routes>
       <ToastContainer 
         position="top-right"
         autoClose={2000}
@@ -16,8 +21,6 @@ function App() {
         draggable
         pauseOnHover
       />
-    </div>
+    </>
   );
 }
-
-export default App;

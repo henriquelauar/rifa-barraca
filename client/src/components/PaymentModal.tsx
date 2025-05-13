@@ -29,7 +29,7 @@ export default function PagamentoModal({
   }
 
   const mensagemWhatsapp = `Olá, acabei de reservar ${numeros.length === 1 ? 'o número' : 'os números'} ${numeros.join(", ")} da rifa. Total: R$ ${total.toFixed(2)}. Segue o comprovante do pagamento.`;
-  const numeroWhatsapp = "5531997568782"; // Substitua pelo número real com DDI + DDD
+  const numeroWhatsapp = "5531997568782";
   const linkWhatsapp = `https://wa.me/${numeroWhatsapp}?text=${encodeURIComponent(mensagemWhatsapp)}`;
 
   return (
