@@ -1,4 +1,4 @@
-import type { Rifa } from '../types/Rifa';
+import type { Rifa } from '../../types/Rifa';
 
 type Props = {
   rifa: Rifa;
@@ -17,6 +17,11 @@ export default function TableRow({
 }: Props) {
   return (
     <tr className='fs-5'>
+      <td>
+        {isEditing ? (
+          <input className="form-control" type="text" value={editRifa?.nome} onChange={e => setEditRifa({ ...editRifa!, nome: e.target.value })} />
+        ) : rifa.nome}
+      </td>
       <td>
         {isEditing ? (
           <input className="form-control" type="email" value={editRifa?.email} onChange={e => setEditRifa({ ...editRifa!, email: e.target.value })} />

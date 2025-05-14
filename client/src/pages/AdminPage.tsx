@@ -1,6 +1,7 @@
 import { useAdmin } from '../hooks/useAdmin';
-import AdminLoginForm from '../components/AdminLoginForm';
-import AdminTable from '../components/AdminTable';
+import AdminLoginForm from '../components/Admin/AdminLoginForm';
+import AdminTable from '../components/Admin/AdminTable';
+import { useState } from 'react';
 
 export default function AdminPage() {
   const {
@@ -8,6 +9,44 @@ export default function AdminPage() {
     setEditRifa, login, logout, marcarComoPago,
     marcarComoPendente, excluirRifa, atualizarRifa
   } = useAdmin();
+
+  // Estado do filtro
+  const [filtro, setFiltro] = useState('');
+
+  // Estado da ordenação
+  const [sortConfig, setSortConfig] = useState<{ key: string, direction: 'asc' | 'desc' }>({ key: 'nome', direction: 'asc' });
+
+  const handleFiltroChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFiltro(e.target.value);
+  };
+
+  const rifasFiltradas = rifas.filter(rifa => {
+    return (
+      rifa.nome.toLowerCase().includes(filtro.toLowerCase()) ||
+      rifa.email.toLowerCase().includes(filtro.toLowerCase()) ||
+      rifa.telefone.includes(filtro) ||
+      (rifa.pago ? 'Pago' : 'Pendente').toLowerCase().includes(filtro.toLowerCase())
+    );
+  });
+
+  const handleSort = (key: string) => {
+    let direction: 'asc' | 'desc' = 'asc';
+    if (sortConfig.key === key && sortConfig.direction === 'asc') {
+      direction = 'desc';
+    }
+    setSortConfig({ key, direction });
+  };
+
+  const sortedRifas = [...rifasFiltradas].sort((a, b) => {
+    const key = sortConfig.key as keyof typeof rifas[0];
+    if (a[key] < b[key]) {
+      return sortConfig.direction === 'asc' ? -1 : 1;
+    }
+    if (a[key] > b[key]) {
+      return sortConfig.direction === 'asc' ? 1 : -1;
+    }
+    return 0;
+  });
 
   if (loading) {
     return <div className="d-flex justify-content-center align-items-center vh-100">
@@ -28,8 +67,20 @@ export default function AdminPage() {
         </button>
       </div>
       <h4 className="mb-3">Reservas da Rifa</h4>
+
+      {/* Campo de filtro */}
+      <div className="mb-3">
+        <input
+          type="text"
+          className="form-control"
+          placeholder="Pesquisar por nome, email, telefone ou status"
+          value={filtro}
+          onChange={handleFiltroChange}
+        />
+      </div>
+
       <AdminTable
-        rifas={rifas}
+        rifas={sortedRifas}
         erro={erro}
         editRifa={editRifa}
         setEditRifa={setEditRifa}
@@ -37,6 +88,8 @@ export default function AdminPage() {
         marcarComoPendente={marcarComoPendente}
         excluirRifa={excluirRifa}
         atualizarRifa={atualizarRifa}
+        handleSort={handleSort}
+        sortConfig={sortConfig}
       />
     </div>
   );
