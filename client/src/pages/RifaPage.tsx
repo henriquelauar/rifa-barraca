@@ -154,6 +154,8 @@ export default function RifaForm() {
         mensagem={mensagem}
       />
 
+      <h6 className="text-center"><a href='/admin'>Painel Administrativo</a></h6>
+      
       {reservaInfo && (
         <PaymentModal
           isOpen={showModal}

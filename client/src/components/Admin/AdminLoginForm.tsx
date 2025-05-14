@@ -16,6 +16,7 @@ type Props = {
   
     return (
       <div className="container py-5">
+        <h6 className="text-center"><a href="/">Voltar para a página da rifa</a></h6>
         <h2 className="text-center mb-4">Login do Admin</h2>
         <form onSubmit={handleSubmit} className="col-12 col-md-6 mx-auto shadow p-4 rounded bg-light">
           <input type="email" placeholder="Email" required className="form-control mb-3" value={email} onChange={e => setEmail(e.target.value)} />

@@ -59,6 +59,7 @@ export default function AdminPage() {
 
   return (
     <div className="container my-4">
+      <h6><a href="/">Voltar para a página da rifa</a></h6>
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h2>Painel de Administração</h2>
         <button className="btn btn-outline-danger" onClick={logout}>
