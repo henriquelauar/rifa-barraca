@@ -56,48 +56,80 @@ export default function RifaPage () {
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target;
+  
+    if (name === 'telefone' || name === 'ddd') {
+      const onlyNumbers = /^[0-9]*$/;
+      if (!onlyNumbers.test(value)) {
+        setMensagem('❌ O telefone e DDD devem conter apenas números.');
+        return;
+      }
+    }
+  
     setForm((prev) => ({ ...prev, [name]: value }));
+    setMensagem(''); // limpa a mensagem de erro ao corrigir
   }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-
-    if (!form.email.includes('@') || form.nome.length < 2 || form.telefone.length < 8 || form.numeros.length === 0) {
-      setMensagem('❌ Preencha todos os campos corretamente e selecione ao menos um número.');
+  
+    const erros: string[] = [];
+  
+    if (!form.nome || form.nome.length < 2) {
+      erros.push('Nome deve ter pelo menos 2 caracteres.');
+    }
+  
+    if (!form.email || !form.email.includes('@')) {
+      erros.push('E-mail inválido. Verifique se está no formato correto.');
+    }
+  
+    if (!form.ddd || !/^\d{2}$/.test(form.ddd)) {
+      erros.push('DDD deve conter exatamente 2 dígitos numéricos.');
+    }
+  
+    if (!form.telefone || !/^\d{8,}$/.test(form.telefone)) {
+      erros.push('Telefone deve conter ao menos 8 dígitos numéricos e apenas números.');
+    }
+  
+    if (!form.numeros || form.numeros.length === 0) {
+      erros.push('Selecione pelo menos um número da rifa.');
+    }
+  
+    if (erros.length > 0) {
+      setMensagem(`❌ Corrija os seguintes erros:\n- ${erros.join('\n- ')}`);
       return;
     }
-
+  
     const indisponiveis = form.numeros.filter((n) => numerosUsados.includes(n));
     if (indisponiveis.length > 0) {
       setMensagem(`❌ Os números ${indisponiveis.join(', ')} já foram reservados.`);
       return;
     }
-
+  
     setLoading(true);
-
+  
     const registros = form.numeros.map((numero) => ({
       nome: form.nome,
       email: form.email,
       telefone: `(${form.ddd}) ${form.telefone}`,
       numero,
     }));
-
+  
     const { error } = await supabase.from('rifa_participantes').insert(registros);
-
+  
     if (error && error.code === '23505') {
       setMensagem('❌ Um ou mais números acabaram de ser reservados por outro participante. Atualize a lista e tente novamente.');
       buscarNumerosUsados();
+      setLoading(false);
       return;
-    } else {
-      setMensagem(`✅ ${form.numeros.length === 1 ? "Número" : "Números"} ${form.numeros.join(", ")} reservado${form.numeros.length === 1 ? "" : "s"} com sucesso!`);
-      setForm({ nome: '', email: '', ddd: '', telefone: '', numeros: [] });
-      buscarNumerosUsados();
-      setReservaInfo(form);
-      setShowModal(true);
     }
-
+  
+    setMensagem(`✅ ${form.numeros.length === 1 ? "Número" : "Números"} ${form.numeros.join(", ")} reservado${form.numeros.length === 1 ? "" : "s"} com sucesso!`);
+    setForm({ nome: '', email: '', ddd: '', telefone: '', numeros: [] });
+    buscarNumerosUsados();
+    setReservaInfo(form);
+    setShowModal(true);
     setLoading(false);
-  }
+  }  
 
   return (
     <div className="container py-5">
