@@ -5,7 +5,7 @@ export type Rifa = {
     telefone: string;
     numero: number;
     pago: boolean;
-    createdAt: string;
+    created_at: Date;
   };
 
   export type FormData = {

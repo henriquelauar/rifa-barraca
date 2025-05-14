@@ -10,11 +10,9 @@ export default function AdminPage() {
     marcarComoPendente, excluirRifa, atualizarRifa
   } = useAdmin();
 
-  // Estado do filtro
   const [filtro, setFiltro] = useState('');
 
-  // Estado da ordenação
-  const [sortConfig, setSortConfig] = useState<{ key: string, direction: 'asc' | 'desc' }>({ key: 'nome', direction: 'asc' });
+  const [sortConfig, setSortConfig] = useState<{ key: string, direction: 'asc' | 'desc' }>({ key: 'created_at', direction: 'desc' });
 
   const handleFiltroChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFiltro(e.target.value);

@@ -46,7 +46,9 @@ export function useAdmin() {
   const fetchRifas = async () => {
     const { data, error } = await supabase
       .from('rifa_participantes')
-      .select('*');
+      .select('*')
+      .order('created_at', { ascending: true });
+
 
     if (error) {
       setErro('Erro ao carregar rifas');

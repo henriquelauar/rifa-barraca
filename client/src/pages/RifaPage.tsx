@@ -78,7 +78,7 @@ export default function RifaPage () {
     const registros = form.numeros.map((numero) => ({
       nome: form.nome,
       email: form.email,
-      telefone: form.telefone,
+      telefone: `(${form.ddd}) ${form.telefone}`,
       numero,
     }));
 

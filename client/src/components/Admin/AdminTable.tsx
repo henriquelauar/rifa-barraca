@@ -26,6 +26,9 @@ export default function AdminTable({
         <table className="table table-bordered align-middle text-center">
           <thead className="table-dark">
             <tr>
+              <th onClick={() => handleSort('created_at')} style={{ cursor: 'pointer' }}>
+                Data {sortConfig.key === 'created_at' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
+              </th>
               <th onClick={() => handleSort('nome')} style={{ cursor: 'pointer' }}>
                 Nome {sortConfig.key === 'nome' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
               </th>

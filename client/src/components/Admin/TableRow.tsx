@@ -25,6 +25,13 @@ export default function TableRow({
 
   return (
     <tr className="align-middle">
+      <td>
+        {new Date(rifa.created_at).toLocaleString('pt-BR', {
+          timeZone: 'America/Sao_Paulo',
+          dateStyle: 'short',
+          timeStyle: 'short',
+        })}
+      </td>
       <td className="text-wrap">
         {isEditing ? (
           <input 
