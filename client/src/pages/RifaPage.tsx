@@ -8,13 +8,15 @@ type FormData = {
   nome: string;
   email: string;
   telefone: string;
+  ddd: string,
   numeros: number[];
 };
 
-export default function RifaForm() {
+export default function RifaPage () {
   const [form, setForm] = useState<FormData>({
     nome: '',
     email: '',
+    ddd: '',
     telefone: '',
     numeros: [],
   });
@@ -88,7 +90,7 @@ export default function RifaForm() {
       return;
     } else {
       setMensagem(`✅ ${form.numeros.length === 1 ? "Número" : "Números"} ${form.numeros.join(", ")} reservado${form.numeros.length === 1 ? "" : "s"} com sucesso!`);
-      setForm({ nome: '', email: '', telefone: '', numeros: [] });
+      setForm({ nome: '', email: '', ddd: '', telefone: '', numeros: [] });
       buscarNumerosUsados();
       setReservaInfo(form);
       setShowModal(true);

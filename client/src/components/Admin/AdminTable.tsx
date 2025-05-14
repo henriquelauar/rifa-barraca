@@ -29,9 +29,6 @@ export default function AdminTable({
               <th onClick={() => handleSort('nome')} style={{ cursor: 'pointer' }}>
                 Nome {sortConfig.key === 'nome' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
               </th>
-              <th onClick={() => handleSort('email')} style={{ cursor: 'pointer' }}>
-                Email {sortConfig.key === 'email' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
-              </th>
               <th onClick={() => handleSort('telefone')} style={{ cursor: 'pointer' }}>
                 Telefone {sortConfig.key === 'telefone' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
               </th>

@@ -5,6 +5,7 @@ interface FormularioRifaProps {
     nome: string;
     email: string;
     telefone: string;
+    ddd: string;
     numeros: number[];
   };
   handleChange: React.ChangeEventHandler<HTMLInputElement>;
@@ -42,14 +43,28 @@ const RifaForm: React.FC<FormularioRifaProps> = ({ form, handleChange, handleSub
         </div>
         <div className="mb-3">
           <label className="form-label">Telefone</label>
-          <input
-            type="tel"
-            className="form-control"
-            name="telefone"
-            value={form.telefone}
-            onChange={handleChange}
-            required
-          />
+          <div className="d-flex">
+            <input
+              type="text"
+              className="form-control w-25"
+              name="ddd"
+              value={form.ddd}
+              onChange={handleChange}
+              maxLength={2}
+              placeholder="DDD"
+              required
+            />
+            <input
+              type="tel"
+              className="form-control w-75 ms-2"
+              name="telefone"
+              value={form.telefone}
+              onChange={handleChange}
+              maxLength={9}
+              placeholder="Número"
+              required
+            />
+          </div>
         </div>
         {form.numeros.length > 0 && (
           <p className="fw-bold">Selecionados: {form.numeros.sort((a, b) => a - b).join(', ')}</p>
