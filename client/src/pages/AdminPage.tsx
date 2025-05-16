@@ -11,8 +11,8 @@ export default function AdminPage() {
   } = useAdmin();
 
   const [filtro, setFiltro] = useState('');
-
   const [sortConfig, setSortConfig] = useState<{ key: string, direction: 'asc' | 'desc' }>({ key: 'created_at', direction: 'desc' });
+  const totalVendidas = rifas.filter(rifa => rifa.pago).length;
 
   const handleFiltroChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFiltro(e.target.value);
@@ -66,7 +66,9 @@ export default function AdminPage() {
         </button>
       </div>
       <h4 className="mb-3">Reservas da Rifa</h4>
-
+      <div className="alert alert-success">
+  <strong>{totalVendidas}</strong> número{totalVendidas !== 1 ? 's' : ''} já {totalVendidas !== 1 ? 'vendidos' : 'vendido'}!
+</div>
       {/* Campo de filtro */}
       <div className="mb-3">
         <input
