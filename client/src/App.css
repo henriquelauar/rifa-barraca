@@ -15,3 +15,20 @@ body {
     white-space: nowrap;
     padding: 0;
   }
+
+  .scroll-container {
+    position: relative;
+    max-height: 400px;
+    overflow-y: scroll;
+  }
+  
+  .scroll-container::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 60px;
+    width: 100%;
+    background: linear-gradient(to top, white, transparent);
+    pointer-events: none;
+  }
