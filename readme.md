@@ -39,7 +39,6 @@ Projeto desenvolvido para arrecadar fundos de forma prática e personalizada atr
 | Vite              | Build tool para desenvolvimento ágil     |
 | Supabase          | Backend-as-a-Service (Auth + Realtime + DB) |
 | Bootstrap         | Layout responsivo e estilização rápida   |
-| Zapier (em progresso) | Integração futura com Mercado Pago  |
 
 ---
 
