@@ -24,7 +24,7 @@ export default function RifaPage () {
   const [numerosUsados, setNumerosUsados] = useState<number[]>([]);
   const [mensagem, setMensagem] = useState('');
   const [loading, setLoading] = useState(false);
-  const [filtro, setFiltro] = useState<'todos' | 'disponiveis' | 'reservados'>('todos');
+  const [filtro, setFiltro] = useState<'todos' | 'disponiveis' | 'reservados'>('disponiveis');
   const [showModal, setShowModal] = useState(false);
   const [reservaInfo, setReservaInfo] = useState<FormData | null>(null);
 
