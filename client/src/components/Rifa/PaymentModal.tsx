@@ -10,6 +10,8 @@ type PagamentoModalProps = {
   chavePix: string;
 };
 
+const PRECO_RIFA = 5;
+
 export default function PagamentoModal({
   isOpen,
   onClose,
@@ -21,15 +23,16 @@ export default function PagamentoModal({
 }: PagamentoModalProps) {
   if (!isOpen) return null;
 
-  const total = numeros.length * 5;
+  const total = numeros.length * PRECO_RIFA;
+  const numerosOrdenadosString = numeros.sort((a, b) => a - b).join(", ");
 
   function copiarChavePix() {
     navigator.clipboard.writeText(chavePix);
     toast.success("Chave Pix copiada!");
   }
 
-  const mensagemWhatsapp = `Olá, acabei de reservar ${numeros.length === 1 ? 'o número' : 'os números'} ${numeros.join(", ")} da rifa. Total: R$ ${total.toFixed(2)}. Segue o comprovante do pagamento.`;
-  const numeroWhatsapp = "5531997568782";
+  const mensagemWhatsapp = `Olá, acabei de reservar ${numeros.length === 1 ? 'o número' : 'os números'} ${numerosOrdenadosString} da rifa. Total: R$ ${total.toFixed(2)}. Segue o comprovante do pagamento.`;
+  const numeroWhatsapp = "5531996992730";
   const linkWhatsapp = `https://wa.me/${numeroWhatsapp}?text=${encodeURIComponent(mensagemWhatsapp)}`;
 
   return (
@@ -37,7 +40,7 @@ export default function PagamentoModal({
       <div className="modal-dialog modal-dialog-centered">
         <div className="modal-content shadow rounded">
           <div className="modal-header bg-light">
-            <h5 className="modal-title">💸 Informações para Pagamento</h5>
+            <h5 className="modal-title">Informações para Pagamento</h5>
             <button type="button" className="btn-close" onClick={onClose}></button>
           </div>
           <div className="modal-body p-4">
@@ -48,7 +51,7 @@ export default function PagamentoModal({
               <p><strong>Quantidade:</strong> {numeros.length} rifa(s)</p>
               <p>
                 <strong>{numeros.length === 1 ? "Número escolhido" : "Números escolhidos"}:</strong>{" "}
-                {numeros.sort((a, b) => a - b).join(", ")}
+                {numerosOrdenadosString}
               </p>             
               <p><strong>Total:</strong> R$ {total.toFixed(2)}</p>
             </div>
@@ -57,7 +60,7 @@ export default function PagamentoModal({
 
             <div className="mb-2">
               <p className="mb-2"><strong>Dados para pagamento via Pix:</strong></p>
-              <p className="mb-1"><strong>Nome:</strong> Matheus Henrique Gomes Marques</p>
+              <p className="mb-1"><strong>Nome:</strong> Mateus Magalhães Lage do Carmo</p>
               <p className="mb-1"><strong>Instituição:</strong> PicPay</p>
               <div className="d-flex justify-content-between align-items-center border rounded p-2 bg-light">
                 <div className="text-break">

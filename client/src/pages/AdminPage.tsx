@@ -23,7 +23,8 @@ export default function AdminPage() {
       rifa.nome.toLowerCase().includes(filtro.toLowerCase()) ||
       rifa.email.toLowerCase().includes(filtro.toLowerCase()) ||
       rifa.telefone.includes(filtro) ||
-      (rifa.pago ? 'Pago' : 'Pendente').toLowerCase().includes(filtro.toLowerCase())
+      (rifa.pago ? 'Pago' : 'Pendente').toLowerCase().includes(filtro.toLowerCase()) ||
+      rifa.numero.toString().includes(filtro)
     );
   });
 
@@ -67,8 +68,8 @@ export default function AdminPage() {
       </div>
       <h4 className="mb-3">Reservas da Rifa</h4>
       <div className="alert alert-success">
-  <strong>{totalVendidas}</strong> número{totalVendidas !== 1 ? 's' : ''} já {totalVendidas !== 1 ? 'vendidos' : 'vendido'}!
-</div>
+        <strong>{totalVendidas}</strong> número{totalVendidas !== 1 ? 's' : ''} já {totalVendidas !== 1 ? 'vendidos' : 'vendido'}!
+      </div>
       {/* Campo de filtro */}
       <div className="mb-3">
         <input

@@ -14,13 +14,17 @@ export function useAdmin() {
   useEffect(() => {
     const checkSession = async () => {
       const { data: { session } } = await supabase.auth.getSession();
+
+      console.log('session:', session);
+
       if (session?.user) {
         setUser(session.user);
-        checkAdmin(session.user.id);
+        await checkAdmin(session.user.id);
       } else {
         setLoading(false);
       }
     };
+
     checkSession();
   }, []);
 
@@ -31,15 +35,19 @@ export function useAdmin() {
       .eq('id', userId)
       .single();
 
+    console.log('checkAdmin data:', data);
+    console.log('checkAdmin error:', error);
+
     if (error || !data?.isAdmin) {
-      setErro('Acesso não autorizado.');
+      setErro(error?.message || 'Acesso não autorizado.');
       await supabase.auth.signOut();
       setUser(null);
       setIsAdmin(false);
     } else {
       setIsAdmin(true);
-      fetchRifas();
+      await fetchRifas();
     }
+
     setLoading(false);
   };
 
@@ -49,26 +57,37 @@ export function useAdmin() {
       .select('*')
       .order('created_at', { ascending: true });
 
+    console.log('fetchRifas data:', data);
+    console.log('fetchRifas error:', error);
 
     if (error) {
-      setErro('Erro ao carregar rifas');
+      setErro(error.message || 'Erro ao carregar rifas');
     } else {
-      setRifas(data);
+      setRifas(data || []);
     }
   };
 
   const login = async (email: string, senha: string) => {
     setErro('');
     setLoading(true);
-    const { data, error } = await supabase.auth.signInWithPassword({ email, password: senha });
+
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password: senha
+    });
+
+    console.log('signIn data:', data);
+    console.log('signIn error:', error);
+
     if (error || !data.session?.user) {
-      setErro('Login inválido');
+      setErro(error?.message || 'Login inválido');
       setLoading(false);
       return;
     }
+
     const currentUser = data.session.user;
     setUser(currentUser);
-    checkAdmin(currentUser.id);
+    await checkAdmin(currentUser.id);
   };
 
   const logout = async () => {
@@ -77,18 +96,26 @@ export function useAdmin() {
   };
 
   const marcarComoPago = async (id: number) => {
-    const { error } = await supabase.from('rifa_participantes').upsert([{ id, pago: true }]).single();
+    const { error } = await supabase
+      .from('rifa_participantes')
+      .update({ pago: true })
+      .eq('id', id);
+
     if (error) {
-      setErro('Erro ao marcar como pago');
+      setErro(error.message || 'Erro ao marcar como pago');
     } else {
       setRifas(rifas.map(rifa => (rifa.id === id ? { ...rifa, pago: true } : rifa)));
     }
   };
 
   const marcarComoPendente = async (id: number) => {
-    const { error } = await supabase.from('rifa_participantes').upsert([{ id, pago: false }]).single();
+    const { error } = await supabase
+      .from('rifa_participantes')
+      .update({ pago: false })
+      .eq('id', id);
+
     if (error) {
-      setErro('Erro ao marcar como pendente');
+      setErro(error.message || 'Erro ao marcar como pendente');
     } else {
       setRifas(rifas.map(rifa => (rifa.id === id ? { ...rifa, pago: false } : rifa)));
     }
@@ -96,8 +123,9 @@ export function useAdmin() {
 
   const excluirRifa = async (id: number) => {
     const { error } = await supabase.from('rifa_participantes').delete().eq('id', id);
+
     if (error) {
-      setErro('Erro ao excluir reserva');
+      setErro(error.message || 'Erro ao excluir reserva');
     } else {
       setRifas(rifas.filter(rifa => rifa.id !== id));
     }
@@ -105,6 +133,7 @@ export function useAdmin() {
 
   const atualizarRifa = async () => {
     if (!editRifa) return;
+
     const { error } = await supabase
       .from('rifa_participantes')
       .update({
@@ -113,8 +142,9 @@ export function useAdmin() {
         numero: editRifa.numero
       })
       .eq('id', editRifa.id);
+
     if (error) {
-      setErro('Erro ao atualizar reserva');
+      setErro(error.message || 'Erro ao atualizar reserva');
     } else {
       setRifas(rifas.map(r => (r.id === editRifa.id ? editRifa : r)));
       setEditRifa(null);

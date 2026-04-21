@@ -152,7 +152,7 @@ export default function RifaPage () {
 
       {/* Números */}
       <div className="card p-4">
-        <h5 className="mb-1">🎫 Escolha seus números</h5>
+        <h5 className="mb-1">Escolha seus números</h5>
         <h6 className='mb-3'>Números de 1 a 600, role para ver mais!</h6>
         <div className="d-flex flex-wrap gap-2" style={{ maxHeight: '430px', overflowY: 'scroll' }}>
           {Array.from({ length: 600 }, (_, i) => i + 1)
@@ -199,7 +199,7 @@ export default function RifaPage () {
           email={reservaInfo.email}
           telefone={reservaInfo.telefone}
           numeros={reservaInfo.numeros}
-          chavePix="31 997568782"
+          chavePix="bacead7c-cc07-4ace-83a6-1b5201dbbaac"
         />
       )}
     </div>

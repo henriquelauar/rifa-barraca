@@ -1,0 +1,63 @@
+.rifa-form-card {
+  background: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%);
+}
+
+.rifa-form-control {
+  border-radius: 14px;
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  box-shadow: none;
+  transition: all 0.2s ease;
+}
+
+.rifa-form-control:focus {
+  border-color: #22c55e;
+  box-shadow: 0 0 0 0.2rem rgba(34, 197, 94, 0.15);
+}
+
+.rifa-selected-numbers {
+  background: linear-gradient(135deg, #eff6ff 0%, #ecfeff 100%);
+  border: 1px solid #dbeafe;
+  color: #1d4ed8;
+  padding: 12px 14px;
+  border-radius: 14px;
+  text-align: center;
+  line-height: 1.6;
+}
+
+.rifa-submit-btn {
+  border: none;
+  border-radius: 999px;
+  min-height: 48px;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%);
+  box-shadow: 0 12px 24px rgba(34, 197, 94, 0.22);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.rifa-submit-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 28px rgba(34, 197, 94, 0.28);
+  color: #fff;
+}
+
+.rifa-submit-btn:disabled {
+  opacity: 0.8;
+}
+
+.rifa-alert {
+  border: none;
+  border-radius: 14px;
+  font-weight: 500;
+}
+
+@media (max-width: 767px) {
+  .rifa-form-card .card-body {
+    padding: 16px;
+  }
+
+  .rifa-submit-btn {
+    width: 100%;
+  }
+}
