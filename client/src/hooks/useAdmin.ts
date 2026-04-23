@@ -13,9 +13,9 @@ export function useAdmin() {
 
   useEffect(() => {
     const checkSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-
-      console.log('session:', session);
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
 
       if (session?.user) {
         setUser(session.user);
@@ -34,9 +34,6 @@ export function useAdmin() {
       .select('isAdmin')
       .eq('id', userId)
       .single();
-
-    console.log('checkAdmin data:', data);
-    console.log('checkAdmin error:', error);
 
     if (error || !data?.isAdmin) {
       setErro(error?.message || 'Acesso não autorizado.');
@@ -57,9 +54,6 @@ export function useAdmin() {
       .select('*')
       .order('created_at', { ascending: true });
 
-    console.log('fetchRifas data:', data);
-    console.log('fetchRifas error:', error);
-
     if (error) {
       setErro(error.message || 'Erro ao carregar rifas');
     } else {
@@ -73,11 +67,8 @@ export function useAdmin() {
 
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
-      password: senha
+      password: senha,
     });
-
-    console.log('signIn data:', data);
-    console.log('signIn error:', error);
 
     if (error || !data.session?.user) {
       setErro(error?.message || 'Login inválido');
@@ -104,7 +95,7 @@ export function useAdmin() {
     if (error) {
       setErro(error.message || 'Erro ao marcar como pago');
     } else {
-      setRifas(rifas.map(rifa => (rifa.id === id ? { ...rifa, pago: true } : rifa)));
+      setRifas((prev) => prev.map((rifa) => (rifa.id === id ? { ...rifa, pago: true } : rifa)));
     }
   };
 
@@ -117,7 +108,7 @@ export function useAdmin() {
     if (error) {
       setErro(error.message || 'Erro ao marcar como pendente');
     } else {
-      setRifas(rifas.map(rifa => (rifa.id === id ? { ...rifa, pago: false } : rifa)));
+      setRifas((prev) => prev.map((rifa) => (rifa.id === id ? { ...rifa, pago: false } : rifa)));
     }
   };
 
@@ -127,7 +118,7 @@ export function useAdmin() {
     if (error) {
       setErro(error.message || 'Erro ao excluir reserva');
     } else {
-      setRifas(rifas.filter(rifa => rifa.id !== id));
+      setRifas((prev) => prev.filter((rifa) => rifa.id !== id));
     }
   };
 
@@ -139,21 +130,31 @@ export function useAdmin() {
       .update({
         email: editRifa.email,
         telefone: editRifa.telefone,
-        numero: editRifa.numero
+        numero: editRifa.numero,
       })
       .eq('id', editRifa.id);
 
     if (error) {
       setErro(error.message || 'Erro ao atualizar reserva');
     } else {
-      setRifas(rifas.map(r => (r.id === editRifa.id ? editRifa : r)));
+      setRifas((prev) => prev.map((r) => (r.id === editRifa.id ? editRifa : r)));
       setEditRifa(null);
     }
   };
 
   return {
-    user, isAdmin, loading, erro, rifas, editRifa,
-    setEditRifa, login, logout, marcarComoPago,
-    marcarComoPendente, excluirRifa, atualizarRifa
+    user,
+    isAdmin,
+    loading,
+    erro,
+    rifas,
+    editRifa,
+    setEditRifa,
+    login,
+    logout,
+    marcarComoPago,
+    marcarComoPendente,
+    excluirRifa,
+    atualizarRifa,
   };
 }

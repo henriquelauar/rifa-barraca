@@ -1,4 +1,4 @@
-import { toast } from "react-toastify";
+import { toast } from 'react-toastify';
 
 type PagamentoModalProps = {
   isOpen: boolean;
@@ -24,25 +24,34 @@ export default function PagamentoModal({
   if (!isOpen) return null;
 
   const total = numeros.length * PRECO_RIFA;
-  const numerosOrdenadosString = numeros.sort((a, b) => a - b).join(", ");
+  const numerosOrdenadosString = [...numeros].sort((a, b) => a - b).join(', ');
 
   function copiarChavePix() {
     navigator.clipboard.writeText(chavePix);
-    toast.success("Chave Pix copiada!");
+    toast.success('Chave Pix copiada!');
   }
 
-  const mensagemWhatsapp = `Olá, acabei de reservar ${numeros.length === 1 ? 'o número' : 'os números'} ${numerosOrdenadosString} da rifa. Total: R$ ${total.toFixed(2)}. Segue o comprovante do pagamento.`;
-  const numeroWhatsapp = "5531996992730";
+  const mensagemWhatsapp = `Olá, acabei de reservar ${
+    numeros.length === 1 ? 'o número' : 'os números'
+  } ${numerosOrdenadosString} da rifa. Total: R$ ${total.toFixed(
+    2
+  )}. Segue o comprovante do pagamento.`;
+
+  const numeroWhatsapp = '5531996992730';
   const linkWhatsapp = `https://wa.me/${numeroWhatsapp}?text=${encodeURIComponent(mensagemWhatsapp)}`;
 
   return (
-    <div className="modal fade show d-block" style={{ backgroundColor: "rgba(0,0,0,0.5)" }}>
+    <div
+      className="modal fade show d-block"
+      style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}
+    >
       <div className="modal-dialog modal-dialog-centered">
         <div className="modal-content shadow rounded">
           <div className="modal-header bg-light">
             <h5 className="modal-title">Informações para Pagamento</h5>
             <button type="button" className="btn-close" onClick={onClose}></button>
           </div>
+
           <div className="modal-body p-4">
             <div className="mb-3">
               <p><strong>Nome:</strong> {nome}</p>
@@ -50,9 +59,9 @@ export default function PagamentoModal({
               <p><strong>Telefone:</strong> {telefone}</p>
               <p><strong>Quantidade:</strong> {numeros.length} rifa(s)</p>
               <p>
-                <strong>{numeros.length === 1 ? "Número escolhido" : "Números escolhidos"}:</strong>{" "}
+                <strong>{numeros.length === 1 ? 'Número escolhido' : 'Números escolhidos'}:</strong>{' '}
                 {numerosOrdenadosString}
-              </p>             
+              </p>
               <p><strong>Total:</strong> R$ {total.toFixed(2)}</p>
             </div>
 
@@ -62,18 +71,24 @@ export default function PagamentoModal({
               <p className="mb-2"><strong>Dados para pagamento via Pix:</strong></p>
               <p className="mb-1"><strong>Nome:</strong> Mateus Magalhães Lage do Carmo</p>
               <p className="mb-1"><strong>Instituição:</strong> PicPay</p>
+
               <div className="d-flex justify-content-between align-items-center border rounded p-2 bg-light">
                 <div className="text-break">
                   <strong>Chave:</strong> {chavePix}
                 </div>
-                <button className="btn btn-sm btn-outline-primary ms-3" onClick={copiarChavePix}>
+                <button
+                  className="btn btn-sm btn-outline-primary ms-3"
+                  onClick={copiarChavePix}
+                  type="button"
+                >
                   Copiar
                 </button>
               </div>
             </div>
           </div>
+
           <div className="modal-footer d-flex justify-content-center flex-wrap">
-          <a
+            <a
               href={linkWhatsapp}
               target="_blank"
               rel="noopener noreferrer"
@@ -81,10 +96,10 @@ export default function PagamentoModal({
             >
               Enviar comprovante via WhatsApp <i className="bi bi-whatsapp mx-1"></i>
             </a>
-            <button className="btn btn-danger w-100" onClick={onClose}>
+
+            <button className="btn btn-danger w-100" onClick={onClose} type="button">
               Fechar
             </button>
-
           </div>
         </div>
       </div>
