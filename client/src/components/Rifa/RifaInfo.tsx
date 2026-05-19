@@ -27,7 +27,7 @@ export default function RifaInfo() {
             <strong>Sorteio:</strong> Live no Instagram
           </p>
           <p className="mb-0 pt-2 border-top">
-            <strong>Data:</strong> 21/05/2026
+            <strong>Data:</strong> 20/05/2026
           </p>
         </div>
       </div>
@@ -62,7 +62,7 @@ export default function RifaInfo() {
             >
               (@barracaarmada)
             </a>{' '}
-            no dia 21/05, ou assim que esgotarem os números da rifa.
+            no dia 20/05, ou assim que esgotarem os números da rifa.
           </p>
         </div>
       </div>
