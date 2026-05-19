@@ -24,7 +24,7 @@ export default function TableRow({
   };
 
   return (
-    <tr className="align-middle">
+    <tr className="align-middle table-row-animation border-2">
       <td>
         {new Date(rifa.created_at).toLocaleString('pt-BR', {
           timeZone: 'America/Sao_Paulo',

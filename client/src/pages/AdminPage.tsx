@@ -11,21 +11,23 @@ export default function AdminPage() {
   } = useAdmin();
 
   const [filtro, setFiltro] = useState('');
+  const [filtroNumero, setFiltroNumero] = useState('');
   const [sortConfig, setSortConfig] = useState<{ key: string, direction: 'asc' | 'desc' }>({ key: 'created_at', direction: 'desc' });
   const totalVendidas = rifas.filter(rifa => rifa.pago).length;
 
-  const handleFiltroChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFiltro(e.target.value);
-  };
 
   const rifasFiltradas = rifas.filter(rifa => {
-    return (
+    const filtroTextoValido =
+      filtro.trim() === '' ||
       rifa.nome.toLowerCase().includes(filtro.toLowerCase()) ||
       rifa.email.toLowerCase().includes(filtro.toLowerCase()) ||
-      rifa.telefone.includes(filtro) ||
-      (rifa.pago ? 'Pago' : 'Pendente').toLowerCase().includes(filtro.toLowerCase()) ||
-      rifa.numero.toString().includes(filtro)
-    );
+      rifa.telefone.includes(filtro);
+
+    const filtroNumeroValido =
+      filtroNumero.trim() === '' ||
+      rifa.numero.toString() === filtroNumero.trim();
+
+    return filtroTextoValido && filtroNumeroValido;
   });
 
   const handleSort = (key: string) => {
@@ -70,29 +72,44 @@ export default function AdminPage() {
       <div className="alert alert-success">
         <strong>{totalVendidas}</strong> número{totalVendidas !== 1 ? 's' : ''} já {totalVendidas !== 1 ? 'vendidos' : 'vendido'}!
       </div>
-      {/* Campo de filtro */}
-      <div className="mb-3">
-        <input
-          type="text"
-          className="form-control"
-          placeholder="Pesquisar por nome, email, telefone ou status"
-          value={filtro}
-          onChange={handleFiltroChange}
-        />
+
+      {/* Campo de Filtro */}
+      <div className="row mb-3">
+        <div className="col-md-6 mb-2">
+          <input
+            type="text"
+            className="form-control shadow-sm transition-input"
+            placeholder="Pesquisar por nome, email ou telefone"
+            value={filtro}
+            onChange={(e) => setFiltro(e.target.value)}
+          />
+        </div>
+
+        <div className="col-md-6 mb-2">
+          <input
+            type="text"
+            className="form-control shadow-sm transition-input"
+            placeholder="Pesquisar por número"
+            value={filtroNumero}
+            onChange={(e) => setFiltroNumero(e.target.value)}
+          />
+        </div>
       </div>
 
-      <AdminTable
-        rifas={sortedRifas}
-        erro={erro}
-        editRifa={editRifa}
-        setEditRifa={setEditRifa}
-        marcarComoPago={marcarComoPago}
-        marcarComoPendente={marcarComoPendente}
-        excluirRifa={excluirRifa}
-        atualizarRifa={atualizarRifa}
-        handleSort={handleSort}
-        sortConfig={sortConfig}
-      />
+      <div className="fade-table">
+        <AdminTable
+          rifas={sortedRifas}
+          erro={erro}
+          editRifa={editRifa}
+          setEditRifa={setEditRifa}
+          marcarComoPago={marcarComoPago}
+          marcarComoPendente={marcarComoPendente}
+          excluirRifa={excluirRifa}
+          atualizarRifa={atualizarRifa}
+          handleSort={handleSort}
+          sortConfig={sortConfig}
+        />
+      </div>
     </div>
   );
 }
